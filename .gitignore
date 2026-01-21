@@ -1,0 +1,11 @@
+# Ignoring SSD symlinks (Also dont want big data in git)
+results/
+resources/
+data/
+
+# Ignoring common and temporary files
+.snakemake/
+__pycache__/
+.DS_Store
+*~
+*#
