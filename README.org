@@ -1,0 +1,186 @@
+#+OPTIONS: toc:nil ^:{} ts:t
+#+LATEX_HEADER: \usepackage{/home/gerardo/.emacs.d/org/styles/cornell-style}
+#+LATEX_HEADER: \input{/home/gerardo/.emacs.d/org/styles/boxes.tex}
+#+LATEX: \mycover{Commons package}
+* Introduction
+
+This is a repository with all the common functionalities and snakemake rules for my standard bioinformatic pipelines. It is intended to be used as a submodule in other repositories, so that I can easily run common instruction for different projects.
+
+** Architecture
+
+The architecture of this repository and that or the projects using it is as follows:
+
+- Project
+  - config
+    - config.yaml
+  - workflow
+    - Snakefile
+    - rules
+      - rule1.smk
+      - rule2.smk
+    - scripts
+      - rule1
+	- script1.py
+      - rule2
+	- script2.py
+    - envs
+      - rule1.yaml
+      - rule2.yaml
+  - results
+  - tests
+  - data
+  - results
+  - resources
+
+** Understanding the workflow
+
+The idea of this repo is pretty much inspired by the idea of Biobricks in Synthetic Biology, in which each standard part is meant to be reused and interchangeable with others of the same function/type. Given this, the rules in this repo are meant to be used as standard parts that can be reused in different projects. The rules are designed to be as generic as possible, so that they can be used in different contexts. The rules are also designed to be as modular as possible, so that they can be easily combined with other rules.
+
+The idea is that we can just built our bioinformatic pipelines just by piping (literally just connecting parts) that are compatible and already tested. In this way we can build complex pipelines without having to worry about the details of each part, and we can also easily replace parts with others that are compatible and already tested.
+
+As an example, we can have a general rule to extract samples from a ~.bcf~ file, and a rule to do any analysis on these type of files, if we have many different rules that do ~.bcf~ to ~.bcf~ files, any of these can be use in the pipeline, and this makes easy to change existing files and still be able to pipe them into the next step of the pipeline. This is a very powerful concept, and it is the basis of the idea of Biobricks in Synthetic Biology.
+
+** Basic usage
+
+*** Defining output
+
+In order to have standard output creation for tractability, the functions in the [[Commons][commons module]] are built so you don't have to worry about messy directories, the output that you define in the files will *ALWAYS* be created in the ~results~ directory, and the log files will be created in the ~logs~ directory, same for benchmarks. The idea is that you don't have to worry about creating directories, and you can just focus on the analysis.
+
+The usage of this module is pretty simple, in the creation of ~input:~ and ~output:~ directives when defining a Snakemake rule, you can use the functions in the [[Commons][commons module]] to define the proper path, never writing outside of the ~results~ directory.
+
+The most basic usage would be to use the ~get_output~ function to define the output file, in this case you need to define the rule name as used in the [[Snakefile][Snakefile]] and the [[Config file][config file]], as well as the file name per see (don't worry if you don't understand this right now, see the [[Config file][config file]] for an explanation on the reason why we work this way). 
+
+#+LATEX: \begin{tcolorbox}[mycode,title=Python] \end{tcolorbox} \vspace{-1.15\baselineskip}
+#+BEGIN_SRC python :results output :session mypython
+
+get_output("rule_name", "file_name.txt")
+
+#+END_SRC
+
+For log and benchmark files, you can use the ~get_log~ and ~get_benchmark~ functions, respectively, and the file name is not necessary.
+
+**** Wildcarding
+
+There is a special case in which you may want to use wildcards for the output and log files, the ~get_output~ rule works just as well with that, but for the log and benchmark files, you would need to pass the wildcard as a second argument to ~get_log~ and ~get_benchmark~, respectively. In this case you need the filename prefix, with no ~.log~ extension, as in this example:
+
+#+LATEX: \begin{tcolorbox}[mycode,title=Python] \end{tcolorbox} \vspace{-1.15\baselineskip}
+#+BEGIN_SRC python :results output :session mypython
+
+get_output("rule_name","{wildcard}.txt")
+
+get_log("rule_name", "{wildcard}")
+
+get_benchmark("rule_name", "{wildcard}")
+
+#+END_SRC
+
+This way is highly encouraged, as it allows for more flexibility in the output files, and it is also more efficient, as it allows for the creation of multiple output files with a single rule, and it will also keep the log and benchmark files organized and one for each rule run.
+
+*** Config file
+
+The configuration file present in ~config/config.yaml~ is the main configuration file for the project, the main purpose of this file is define local variables to use in the Snakefile and specially to define some rule attributes necessary for the proper directory organization of the output files.
+
+The basic structure of a rule description in the configuration file is as follows:
+
+#+LATEX: \begin{tcolorbox}[mycode,title=YAML] \end{tcolorbox} \vspace{-1.15\baselineskip}
+#+BEGIN_SRC yaml
+
+rule_name:
+  dir: "output_directory"
+  prefix: "descriptor"
+
+#+END_SRC
+
+There reason for this architecture is that the helper functions in [[Commons][commons module]] use this configuration tags to name output and log files. merging the prefix and filename with a ~_~. Let's look at an example:
+
+#+LATEX: \begin{tcolorbox}[mycode,title=Python] \end{tcolorbox} \vspace{-1.15\baselineskip}
+#+BEGIN_SRC python :results output :session mypython
+
+get_output("rule_name","test.txt")
+
+#+END_SRC
+
+=/path/to/project/results/output_directory/descriptor_test.txt=
+
+This organization is very useful, all output will always be in results, in a subdirectory defined by ~dir:~ and with a descriptor prefix defined by ~prefix:~. This makes extremely easy to keep things organized, and your ~config.yaml~ file will be just a place to tell the rules output where to go. Since the helper functions just considers this things as strings, you can easily define the ~dir:~ as a path (eg: ~dir: "subdir1/subdir2"~), still living inside ~results/~.
+
+Other things that would live in your config file would be any variables that you want to use as wildcards or config in your Snakefile.
+
+*** Snakefile
+
+TBD: Importing with git submodule to other project.
+
+The basic structure of a rule usage in your ~workflow/Snakefile~ is as follows:
+
+#+LATEX: \begin{tcolorbox}[mycode,title=Python] \end{tcolorbox} \vspace{-1.15\baselineskip}
+#+BEGIN_SRC python :results output :session mypython
+
+# Import rule from smk module
+use rule rule_name as local_rule_name with:
+    input:
+        txt = rules.previous_rule.output.txt
+    output:
+        csv = get_output("local_rule_name","{wildcard}.csv")
+    log:
+        get_log("local_rule_name","{wildcard}")
+    benchmark:
+        get_benchmark("local_rule_name","{wildcard}")
+    threads: config["local_rule_name"]["threads"]
+
+#+END_SRC
+
+The usage of the rule is intended to be local always, so the rule can be called as many times as needed, they are basic building blocks of your pipeline.
+
+Input and output files are always defined with a name (~txt~ and ~csv~ in this example), see specific rules in [[Modues][modules]] for the specific input and output files that are defined for each rule, these names are descriptors of the file type, and are used to define the input and output files in the rule.
+
+They help undestanding also which rules could be used in a pipeline, as the output of one rule could be the input of another rule, and the names of the files help to understand which rules could be used together. All rules have descriptors for input and output, none of them has unnamed input or output files, this is a design decision to make the rules more understandable and easier to use, also facilitates expansion of the rules, as new input and output files can be added without breaking existing rules.
+
+#+LATEX: \begin{tcolorbox}[mynote]
+The rule name in the [[config file][config file]] should be the local name of the rule, not the general one, it will not work if you do not define the local name in the config file.
+#+LATEX: \end{tcolorbox}
+
+* Modules
+ 
+** Commons
+
+For a better understanding of this module please first read the [[Introduction][introduction]] section, it will help you understand the purpose of this module and how to use it.
+
+*** get_output
+
+Helper function to get common output for rules.
+
+*** get_output_filename
+
+If you have multiple output files in a rule, and for some reason want to use a different prefix instead of making filenames different with the filename, use this helper function instead of [[get_output][get_output]]:
+
+#+LATEX: \begin{tcolorbox}[mycode,title=Python] \end{tcolorbox} \vspace{-1.15\baselineskip}
+#+BEGIN_SRC python :results output :session mypython
+
+get_output_filename("rule_name","alt_prefix","filename.txt")
+
+#+END_SRC
+
+What this does is look for the prefix to use in the config file, so it would need to be like this:
+
+#+LATEX: \begin{tcolorbox}[mycode,title=YAML] \end{tcolorbox} \vspace{-1.15\baselineskip}
+#+BEGIN_SRC yaml
+
+rule_name:
+  dir: "directory_name"
+  prefix: "default_prefix"
+  alt_prefix: "alternative_prefix"
+
+#+END_SRC
+
+*** get_log
+
+Returns the path for logging the rule. Takes an optional ~wildcard~ argument (file prefix, no extension) to support wildcarding.
+
+*** get_benchmark
+
+Returns the path for benchmarking the rule. Takes an optional ~wildcard~ argument (file prefix, no extension) to support wildcarding.
+
+*** lines2string
+
+Takes a text file and returns a list of each line as a separate string. This is useful when yoy have defined names (such as sample ids) in a file and want to use them as wildcards in the Snakefile.
+
