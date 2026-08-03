@@ -19,5 +19,5 @@ rule all:
     input:
         # rules.fastq_stats.output
     conda:
-        "envs/r_plots.yaml"
+        "envs/bcftools.yaml"
     default_target: True

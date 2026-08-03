@@ -184,10 +184,50 @@ Returns the path for benchmarking the rule. Takes an optional ~wildcard~ argumen
 
 Takes a text file and returns a list of each line as a separate string. This is useful when yoy have defined names (such as sample ids) in a file and want to use them as wildcards in the Snakefile.
 
-** ahmm
+** [[file:workflow/rules/ahmm.smk][ahmm]]
 
-Analizes the results of a run from [[https://github.com/russcd/Ancestry_HMM][ancestry hmm]].
+Analyzes the results of a run from [[https://github.com/russcd/Ancestry_HMM][ancestry hmm]].
 
-*** ahmm_plot
+** [[file:workflow/rules/bcftools.smk][bcftools]]
 
-Takes the output directory of ancestry hmm (param ~input_dir~)and a PNG file name as input, and generates plots for the ancesty by chromome, as well as the density of ancestry states.
+General rules for working with ~.bcf~ and ~.vcf~ files.
+
+* File formats
+
+In this architecture, it is important to understand the file formats that are used in the rules, as they are the standard formats for bioinformatic pipelines, as well as some defined formats used for standardization of rules that are described here.
+
+It is important to understand this because the input and output format of the rules also define which rules can be piped together, as the output of one rule can be the input of another rule, or some rules return the same output format as input, and this is important to understand when building pipelines.
+
+** General formats
+
+*** txt
+
+This is a general format of plain text that will be used for very basic configuration or input files, or to output some non standard formatted files from certain programs.
+
+*** csv
+
+Comma separated values, common and general format for tabular data, used for input and output of many programs, and also for some intermediate files in the pipelines.
+
+*** pop_map
+
+This is a special format used for population mapping, it is a tab separated file with two columns, the first column is the sample id, and the second column is the population id. This format is used for input of some programs that require population information, and also for some intermediate files in the pipelines.
+
+We use this format as a master helper, this helps keep more readable the function of some rules, and also keeps it easy to understand the input and output of the rules, as well as the pipelines that can be built with them.
+
+*** dir
+
+A directory, not a file.
+
+** Bioinformatic formats
+
+*** vcf
+
+This is the standard format for variant call files, used for input and output of many programs, and also for some intermediate files in the pipelines.
+
+*** bcf
+
+This is the binary version of the vcf format, used for input and output of many programs, and also for some intermediate files in the pipelines. It is more efficient than vcf, as it is smaller and faster to read and write. Many rules output this format, preferred to vcf because of the efficiency.
+
+*** csi
+
+An index for a ~.bcf~ files, many rules in this repo already produce a ~.csi~ index file for the ~.bcf~ output as common practice, as it is required for many programs that use ~.bcf~ files as input.
