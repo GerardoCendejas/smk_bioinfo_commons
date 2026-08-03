@@ -1,0 +1,2 @@
+nlopt==2.9.0
+numpy @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_numpy_1783206204/work/dist/numpy-2.5.1-cp313-cp313-linux_x86_64.whl#sha256=b0614d1ac5de31bc4b3d2893692e1e3d1f0f385710e1bcbc8ca5ffa01d745bd8

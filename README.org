@@ -184,3 +184,10 @@ Returns the path for benchmarking the rule. Takes an optional ~wildcard~ argumen
 
 Takes a text file and returns a list of each line as a separate string. This is useful when yoy have defined names (such as sample ids) in a file and want to use them as wildcards in the Snakefile.
 
+** ahmm
+
+Analizes the results of a run from [[https://github.com/russcd/Ancestry_HMM][ancestry hmm]].
+
+*** ahmm_plot
+
+Takes the output directory of ancestry hmm (param ~input_dir~)and a PNG file name as input, and generates plots for the ancesty by chromome, as well as the density of ancestry states.
