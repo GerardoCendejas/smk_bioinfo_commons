@@ -192,6 +192,10 @@ Analyzes the results of a run from [[https://github.com/russcd/Ancestry_HMM][anc
 
 General rules for working with ~.bcf~ and ~.vcf~ files.
 
+** [[file:workflow/rules/admixture.smk][admixture]]
+
+General rules for running admixture on a ~.bcf~.
+
 * File formats
 
 In this architecture, it is important to understand the file formats that are used in the rules, as they are the standard formats for bioinformatic pipelines, as well as some defined formats used for standardization of rules that are described here.

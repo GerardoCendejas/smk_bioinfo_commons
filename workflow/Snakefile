@@ -19,5 +19,5 @@ rule all:
     input:
         # rules.fastq_stats.output
     conda:
-        "envs/bcftools.yaml"
+        "envs/admixture.yaml"
     default_target: True

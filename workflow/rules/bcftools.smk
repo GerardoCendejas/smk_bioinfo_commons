@@ -151,10 +151,36 @@ rule bcf2vcf:
         -o {output.vcf} \
         --threads {threads} \
         2> {log}
-
+        
         tabix {output.vcf} 2> {log}
         """
 
+rule vcf2bcf:
+    """
+    Converts a vcf.gz into bcf format
+    """
+    # input:
+    #     vcf = "input/{prefix}.vcf.gz"
+    # output:
+    #     bcf = get_output("bcf2vcf","_{sample}.bcf") # never unzip vcfs, not good
+    # log:
+    #     get_log_wild("bcf2vcf","{sample}")
+    threads: 4
+    resources:
+        mem_mb=lambda wildcards, threads: threads * 1000
+    conda:
+        "envs/bcftools.yaml"
+    shell:
+        """
+        bcftools view \
+        {input.vcf} \
+        -O b \
+        -o {output.bcf} \
+        --write-index=csi \ 
+        --threads {threads} \
+        2> {log}
+        """
+        
 
 rule bcftools_no_chr:
     """
