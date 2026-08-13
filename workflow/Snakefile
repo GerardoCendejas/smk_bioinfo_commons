@@ -19,5 +19,5 @@ rule all:
     input:
         # rules.fastq_stats.output
     conda:
-        "envs/admixture.yaml"
+        "envs/demesdraw.yaml"
     default_target: True
