@@ -2,7 +2,7 @@ name: demesdraw
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  - nodefaults
 dependencies:
   - python=3.12
   - demesdraw=0.4.1
