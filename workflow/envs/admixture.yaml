@@ -2,7 +2,7 @@ name: admixture
 channels:
   - conda-forge
   - bioconda
-  - defaults
+  - nodefaults
 dependencies:
   - admixture=1.3.0
   - plink2=2.00a5.12
