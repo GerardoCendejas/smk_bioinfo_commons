@@ -19,7 +19,7 @@ rule bcftools_filter_samples:
     resources:
         mem_mb = lambda wildcards, threads: threads * 1000
     conda:
-        "envs/bcftools.yaml"        
+        "envs/bcftools.yaml"
     shell:
         """
         bcftools view \
@@ -46,7 +46,7 @@ rule bcftools_filter_samples_flexible:
     #     "logs/bcftools_filter/{prefix}.log"
     threads: 4
     params:
-        # species_list = "conirostris,magnirostris", 
+        # species_list = "conirostris,magnirostris",
     conda:
         "envs/bcftools.yaml"
     shell:
@@ -85,7 +85,7 @@ rule bcftools_filter_informative:
     # log:
     #     "logs/bcftools_filter_informative/{prefix}.log"
     params:
-        filter_expr = 'AC>1 && COUNT(GT!="ref")>=2 && COUNT(GT="ref")>=2 && F_MISSING<0.2'    
+        filter_expr = 'AC>1 && COUNT(GT!="ref")>=2 && COUNT(GT="ref")>=2 && F_MISSING<0.2'
     threads: 4
     resources:
         mem_mb = lambda wildcards, threads: threads * 1000
@@ -123,7 +123,7 @@ rule bcftools_stats:
         bcftools stats --threads {threads} {input.bcf} > {output.txt}
 
         PREFIX=$(echo "{output.txt}" | sed 's/\\.[^.]*$//')
-        
+
         plot-vcfstats -p ${{PREFIX}} {output.txt}
         """
 
@@ -151,7 +151,7 @@ rule bcf2vcf:
         -o {output.vcf} \
         --threads {threads} \
         2> {log}
-        
+
         tabix {output.vcf} 2> {log}
         """
 
@@ -176,11 +176,11 @@ rule vcf2bcf:
         {input.vcf} \
         -O b \
         -o {output.bcf} \
-        --write-index=csi \ 
+        --write-index=csi \
         --threads {threads} \
         2> {log}
         """
-        
+
 
 rule bcftools_no_chr:
     """
@@ -241,7 +241,7 @@ rule bcftools_extract_locus:
         -O b \
         -o {output.bcf} \
         > {log} 2>&1
-        
+
         """
 
 rule tabix:
