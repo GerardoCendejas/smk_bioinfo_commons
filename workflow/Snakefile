@@ -11,6 +11,14 @@ import sys
 
 include: "rules/commons.smk"
 
+# Import modules
+
+include: "rules/admixture.smk"
+include: "rules/ahmm.smk"
+include: "rules/bcftools.smk"
+include: "rules/demesdraw.smk"
+include: "rules/dsuite.smk"
+
 # Loading configfile
 
 configfile: "config/config.yaml"
@@ -19,5 +27,5 @@ rule all:
     input:
         # rules.fastq_stats.output
     conda:
-        "envs/demesdraw.yaml"
+        "envs/dsuite.yaml"
     default_target: True

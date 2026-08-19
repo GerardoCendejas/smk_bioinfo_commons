@@ -1,0 +1,24 @@
+contourpy @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_contourpy_1769155968/work
+cycler @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_cycler_1764466758/work
+ete3 @ file:///home/conda/feedstock_root/build_artifacts/ete3_1688510053282/work
+fonttools @ file:///home/conda/feedstock_root/build_artifacts/fonttools_1778770239222/work
+kiwisolver @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_kiwisolver_1773067048/work
+lxml @ file:///home/conda/feedstock_root/build_artifacts/lxml_1787132998576/work
+matplotlib==3.11.1
+munkres==1.1.4
+numpy @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_numpy_1786330625/work/dist/numpy-2.5.2-cp314-cp314-linux_x86_64.whl#sha256=772631385f8391adb29802985c1084b7184071500209834a48d519c41885fcc7
+packaging @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_packaging_1785888127/work
+pandas @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_pandas_1785276230/work
+pillow @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_pillow_1782912080/work
+ply @ file:///home/conda/feedstock_root/build_artifacts/ply_1733239724146/work
+pyparsing @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_pyparsing_1769003998/work
+PyQt5==5.15.11
+PyQt5_sip==12.17.0
+python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_python-dateutil_1751104122/work
+scipy @ file:///home/conda/feedstock_root/build_artifacts/scipy-split_1781912123961/work/dist/scipy-1.18.0-cp314-cp314-linux_x86_64.whl#sha256=f22db7d5dc8b3a21355b234552c334b6e92a6cb4f468f1ff37172b05adadd4f1
+setuptools==84.0.0
+sip @ file:///home/conda/feedstock_root/build_artifacts/sip_1759437809528/work
+six @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_six_1753199211/work
+toml @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_toml_1764486833/work
+tomli @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_tomli_1774492402/work
+unicodedata2 @ file:///home/conda/feedstock_root/build_artifacts/unicodedata2_1770908959830/work

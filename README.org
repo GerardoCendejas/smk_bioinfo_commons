@@ -131,7 +131,7 @@ use rule rule_name as local_rule_name with:
 
 The usage of the rule is intended to be local always, so the rule can be called as many times as needed, they are basic building blocks of your pipeline.
 
-Input and output files are always defined with a name (~txt~ and ~csv~ in this example), see specific rules in [[Modues][modules]] for the specific input and output files that are defined for each rule, these names are descriptors of the file type, and are used to define the input and output files in the rule.
+Input and output files are always defined with a name (~txt~ and ~csv~ in this example), see specific rules in [[Modules][modules]] for the specific input and output files that are defined for each rule, these names are descriptors of the file type, and are used to define the input and output files in the rule.
 
 They help undestanding also which rules could be used in a pipeline, as the output of one rule could be the input of another rule, and the names of the files help to understand which rules could be used together. All rules have descriptors for input and output, none of them has unnamed input or output files, this is a design decision to make the rules more understandable and easier to use, also facilitates expansion of the rules, as new input and output files can be added without breaking existing rules.
 
@@ -195,6 +195,16 @@ General rules for working with ~.bcf~ and ~.vcf~ files.
 ** [[file:workflow/rules/admixture.smk][admixture]]
 
 General rules for running admixture on a ~.bcf~.
+
+** [[file:workflow/rules/demesdraw.smk][demesdraw]]
+
+Rules for drawing demographic models in demesformat.
+
+** [[file:workflow/rules/dsuite.smk][dsuite]]
+
+Rules for running standard analysis from https://github.com/millanek/Dsuite.git. It include analysis like D statistics (ABBA-BABA, fd, df) in genomic windows with dinvestigate. Also performs the f-branch test with fbranch.
+
+Includes functions to plot the f-branch results with the function provided by the dsuite package, and also a rule to plot f-branch values (only between extant populations, no internal branches) in a network graph, as well as a rule to project this same graph onto geographical space using a tsv file determinating the coordinates of each population.
 
 * File formats
 

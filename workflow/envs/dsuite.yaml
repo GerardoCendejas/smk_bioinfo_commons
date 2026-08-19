@@ -1,0 +1,29 @@
+name: dsuite
+# dsuite-commit: a547f99599d763c1760548191ea3f62cc58e8ac3
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - python >=3.9
+  - cxx-compiler=2.0.0
+  - make=4.4.1
+  - zlib=1.3.2
+  - libstdcxx-ng=16.1.0
+  - curl=8.21.0
+  # For f-branch plot
+  - numpy=2.5.2
+  - pandas=3.0.5
+  - matplotlib-base=3.11.1
+  - ete3=3.1.3
+  - r-base=4.5.3
+  - r-optparse=1.8.2
+  - r-sf=1.1
+  - r-ggplot2=4.0.3
+  - r-dplyr=1.2.1
+  - r-tidyr=1.3.2
+  - r-rnaturalearth=1.2.0
+  - r-rnaturalearthdata=1.0.0
+  - r-scatterpie=0.2.6
+  - r-igraph=2.3.3
+  - r-remotes=2.5.0
