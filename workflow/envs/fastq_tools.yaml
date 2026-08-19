@@ -1,0 +1,8 @@
+name: fastq_tools
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - python=3.11
+  - seqkit=2.13.0

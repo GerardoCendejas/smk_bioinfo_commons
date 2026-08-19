@@ -18,6 +18,7 @@ include: "rules/ahmm.smk"
 include: "rules/bcftools.smk"
 include: "rules/demesdraw.smk"
 include: "rules/dsuite.smk"
+include: "rules/fastq_tools.smk"
 
 # Loading configfile
 
@@ -27,5 +28,5 @@ rule all:
     input:
         # rules.fastq_stats.output
     conda:
-        "envs/dsuite.yaml"
+        "envs/fastq_tools.yaml"
     default_target: True
