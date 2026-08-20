@@ -1,5 +1,5 @@
 # Rule definition for running the dsuite
-# In this context .tre refers to a single tree file in newick format
+n# In this context .tre refers to a single tree file in newick format
 
 rule dsuite_tree_preprocess:
     """

@@ -46,11 +46,11 @@ As an example, we can have a general rule to extract samples from a `.bcf` file,
 
 ### Defining output
 
-In order to have standard output creation for tractability, the functions in the [commons module](#org339cc7f) are built so you don't have to worry about messy directories, the output that you define in the files will **ALWAYS** be created in the `results` directory, and the log files will be created in the `logs` directory, same for benchmarks. The idea is that you don't have to worry about creating directories, and you can just focus on the analysis.
+In order to have standard output creation for tractability, the functions in the [commons module](#orgcc0c2db) are built so you don't have to worry about messy directories, the output that you define in the files will **ALWAYS** be created in the `results` directory, and the log files will be created in the `logs` directory, same for benchmarks. The idea is that you don't have to worry about creating directories, and you can just focus on the analysis.
 
-The usage of this module is pretty simple, in the creation of `input:` and `output:` directives when defining a Snakemake rule, you can use the functions in the [commons module](#org339cc7f) to define the proper path, never writing outside of the `results` directory.
+The usage of this module is pretty simple, in the creation of `input:` and `output:` directives when defining a Snakemake rule, you can use the functions in the [commons module](#orgcc0c2db) to define the proper path, never writing outside of the `results` directory.
 
-The most basic usage would be to use the `get_output` function to define the output file, in this case you need to define the rule name as used in the [Snakefile](#orgc17a44c) and the [config file](#org914ec50), as well as the file name per see (don't worry if you don't understand this right now, see the [config file](#org914ec50) for an explanation on the reason why we work this way). 
+The most basic usage would be to use the `get_output` function to define the output file, in this case you need to define the rule name as used in the [Snakefile](#org8b14021) and the [config file](#org059f9e4), as well as the file name per see (don't worry if you don't understand this right now, see the [config file](#org059f9e4) for an explanation on the reason why we work this way). 
 
     
     get_output("rule_name", "file_name.txt")
@@ -82,7 +82,7 @@ The basic structure of a rule description in the configuration file is as follow
       dir: "output_directory"
       prefix: "descriptor"
 
-There reason for this architecture is that the helper functions in [commons module](#org339cc7f) use this configuration tags to name output and log files. merging the prefix and filename with a `_`. Let's look at an example:
+There reason for this architecture is that the helper functions in [commons module](#orgcc0c2db) use this configuration tags to name output and log files. merging the prefix and filename with a `_`. Let's look at an example:
 
     
     get_output("rule_name","test.txt")
@@ -115,11 +115,11 @@ The basic structure of a rule usage in your `workflow/Snakefile` is as follows:
 
 The usage of the rule is intended to be local always, so the rule can be called as many times as needed, they are basic building blocks of your pipeline.
 
-Input and output files are always defined with a name (`txt` and `csv` in this example), see specific rules in [modules](#orgeda030f) for the specific input and output files that are defined for each rule, these names are descriptors of the file type, and are used to define the input and output files in the rule.
+Input and output files are always defined with a name (`txt` and `csv` in this example), see specific rules in [modules](#orge1b0b24) for the specific input and output files that are defined for each rule, these names are descriptors of the file type, and are used to define the input and output files in the rule.
 
 They help undestanding also which rules could be used in a pipeline, as the output of one rule could be the input of another rule, and the names of the files help to understand which rules could be used together. All rules have descriptors for input and output, none of them has unnamed input or output files, this is a design decision to make the rules more understandable and easier to use, also facilitates expansion of the rules, as new input and output files can be added without breaking existing rules.
 
-The rule name in the [config file](#org914ec50) should be the local name of the rule, not the general one, it will not work if you do not define the local name in the config file.
+The rule name in the [config file](#org059f9e4) should be the local name of the rule, not the general one, it will not work if you do not define the local name in the config file.
 
 
 # Modules
@@ -127,7 +127,7 @@ The rule name in the [config file](#org914ec50) should be the local name of the 
 
 ## Commons
 
-For a better understanding of this module please first read the [introduction](#org291acec) section, it will help you understand the purpose of this module and how to use it.
+For a better understanding of this module please first read the [introduction](#org7d12bde) section, it will help you understand the purpose of this module and how to use it.
 
 
 ### get\_output
@@ -137,7 +137,7 @@ Helper function to get common output for rules.
 
 ### get\_output\_filename
 
-If you have multiple output files in a rule, and for some reason want to use a different prefix instead of making filenames different with the filename, use this helper function instead of [get\_output](#org356ef6e):
+If you have multiple output files in a rule, and for some reason want to use a different prefix instead of making filenames different with the filename, use this helper function instead of [get\_output](#orga1c67f2):
 
     
     get_output_filename("rule_name","alt_prefix","filename.txt")
@@ -193,6 +193,11 @@ Rules for running standard analysis from <https://github.com/millanek/Dsuite.git
 Includes functions to plot the f-branch results with the function provided by the dsuite package, and also a rule to plot f-branch values (only between extant populations, no internal branches) in a network graph, as well as a rule to project this same graph onto geographical space using a tsv file determinating the coordinates of each population.
 
 
+## [genomics\_general](workflow/rules/genomics_general.smk)
+
+Rules for running analysis from [genomics general](https://github.com/simonhmartin/genomics_general.git) package. includes functions to get maximum likelihood phylogenetic trees from `.vcf` files in genomic windows by using phyml.
+
+
 # File formats
 
 In this architecture, it is important to understand the file formats that are used in the rules, as they are the standard formats for bioinformatic pipelines, as well as some defined formats used for standardization of rules that are described here.
@@ -201,6 +206,13 @@ It is important to understand this because the input and output format of the ru
 
 
 ## General formats
+
+
+### log
+
+This is a very important format in this suite. Some rules (usually beacuse of restrictions of programs that they use) cannot either determine the specific files output, or its easier to track the output when we generate a `.log` file.
+
+This is not a log file from snakemake, that will go as normal to `results/logs`. This is only a log file to track files in the pipeline. Every time you see a log flag in the input or output of a rule, check the naming of it (some required a specific name as `success.log`). Some rules use log just to track that the rule ran succesfully and it is not expected to be used afterwards, while some rules that do need a log file as input will tell you from which previous rule log output to use CHECK THE RULE.smk file always to use the proper log file.
 
 
 ### txt
@@ -225,7 +237,17 @@ We use this format as a master helper, this helps keep more readable the functio
 A directory, not a file.
 
 
+### png
+
+A common format for images, usually means that it will be the final output of a rule.
+
+
 ## Bioinformatic formats
+
+
+### fastq
+
+The raw reads from NGS.
 
 
 ### vcf
@@ -241,4 +263,34 @@ This is the binary version of the vcf format, used for input and output of many 
 ### csi
 
 An index for a `.bcf` files, many rules in this repo already produce a `.csi` index file for the `.bcf` output as common practice, as it is required for many programs that use `.bcf` files as input.
+
+
+### geno
+
+A format for genotype info, needed for genomics\_general pipelines.
+
+
+### tre
+
+Newick format for phylogenetic trees.
+
+
+## Local formats
+
+Some formats named only for certain programs pipelines
+
+
+### dinv
+
+The result format of d investigate from dsuite package.
+
+
+### f\_branch
+
+A format needed to run fbranch from dsuited] package.
+
+
+### f\_branch\_o
+
+Output from fbranch from dsuite package, used for plotting fbranch graphs.
 

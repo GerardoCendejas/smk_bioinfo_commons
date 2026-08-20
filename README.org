@@ -206,6 +206,10 @@ Rules for running standard analysis from https://github.com/millanek/Dsuite.git.
 
 Includes functions to plot the f-branch results with the function provided by the dsuite package, and also a rule to plot f-branch values (only between extant populations, no internal branches) in a network graph, as well as a rule to project this same graph onto geographical space using a tsv file determinating the coordinates of each population.
 
+** [[file:workflow/rules/genomics_general.smk][genomics_general]]
+
+Rules for running analysis from [[https://github.com/simonhmartin/genomics_general.git][genomics general]] package. includes functions to get maximum likelihood phylogenetic trees from ~.vcf~ files in genomic windows by using phyml.
+
 * File formats
 
 In this architecture, it is important to understand the file formats that are used in the rules, as they are the standard formats for bioinformatic pipelines, as well as some defined formats used for standardization of rules that are described here.
@@ -213,6 +217,14 @@ In this architecture, it is important to understand the file formats that are us
 It is important to understand this because the input and output format of the rules also define which rules can be piped together, as the output of one rule can be the input of another rule, or some rules return the same output format as input, and this is important to understand when building pipelines.
 
 ** General formats
+
+*** log
+
+This is a very important format in this suite. Some rules (usually beacuse of restrictions of programs that they use) cannot either determine the specific files output, or its easier to track the output when we generate a ~.log~ file.
+
+#+LATEX: \begin{tcolorbox}[mynote]
+This is not a log file from snakemake, that will go as normal to ~results/logs~. This is only a log file to track files in the pipeline. Every time you see a log flag in the input or output of a rule, check the naming of it (some required a specific name as ~success.log~). Some rules use log just to track that the rule ran succesfully and it is not expected to be used afterwards, while some rules that do need a log file as input will tell you from which previous rule log output to use CHECK THE RULE.smk file always to use the proper log file.
+#+LATEX: \end{tcolorbox}
 
 *** txt
 
@@ -232,7 +244,15 @@ We use this format as a master helper, this helps keep more readable the functio
 
 A directory, not a file.
 
+*** png
+
+A common format for images, usually means that it will be the final output of a rule.
+
 ** Bioinformatic formats
+
+*** fastq
+
+The raw reads from NGS.
 
 *** vcf
 
@@ -245,3 +265,28 @@ This is the binary version of the vcf format, used for input and output of many 
 *** csi
 
 An index for a ~.bcf~ files, many rules in this repo already produce a ~.csi~ index file for the ~.bcf~ output as common practice, as it is required for many programs that use ~.bcf~ files as input.
+
+*** geno
+
+A format for genotype info, needed for genomics_general pipelines.
+
+*** tre
+
+Newick format for phylogenetic trees.
+
+** Local formats
+
+Some formats named only for certain programs pipelines
+
+*** dinv
+
+The result format of d investigate from dsuite package.
+
+*** f_branch
+
+A format needed to run fbranch from dsuited] package.
+
+*** f_branch_o
+
+Output from fbranch from dsuite package, used for plotting fbranch graphs.
+

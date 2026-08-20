@@ -19,6 +19,7 @@ include: "rules/bcftools.smk"
 include: "rules/demesdraw.smk"
 include: "rules/dsuite.smk"
 include: "rules/fastq_tools.smk"
+include: "rules/genomics_general.smk"
 
 # Loading configfile
 
@@ -28,5 +29,5 @@ rule all:
     input:
         # rules.fastq_stats.output
     conda:
-        "envs/fastq_tools.yaml"
+        "envs/genomics_general.yaml"
     default_target: True

@@ -1,0 +1,10 @@
+name: genomics_general
+# genomics_general-commit: 39243440565d138f3eedd1f99b62916254706f71  
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - python=3.14
+  - numpy=2.5.2
+  - phyml=3.3.20260528
