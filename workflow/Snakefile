@@ -20,6 +20,7 @@ include: "rules/demesdraw.smk"
 include: "rules/dsuite.smk"
 include: "rules/fastq_tools.smk"
 include: "rules/genomics_general.smk"
+include: "rules/utils.smk"
 
 # Loading configfile
 
