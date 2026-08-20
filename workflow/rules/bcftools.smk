@@ -75,6 +75,7 @@ rule bcftools_filter_informative:
       - No singletons (AC>1)
       - Allele frequency (Ref>=2, Alt>=2)
       - Missing data < 20%
+      - Variant type SNPs
     """
 
     # input:
@@ -85,7 +86,8 @@ rule bcftools_filter_informative:
     # log:
     #     "logs/bcftools_filter_informative/{prefix}.log"
     params:
-        filter_expr = 'AC>1 && COUNT(GT!="ref")>=2 && COUNT(GT="ref")>=2 && F_MISSING<0.2'
+        filter_expr = 'AC>1 && COUNT(GT!="ref")>=2 && COUNT(GT="ref")>=2 && F_MISSING<0.2',
+        v_type = "snps"
     threads: 4
     resources:
         mem_mb = lambda wildcards, threads: threads * 1000
@@ -95,6 +97,7 @@ rule bcftools_filter_informative:
         """
         bcftools view \
             --include '{params.filter_expr}' \
+            -v {params.v_type} \
             --output-type b \
             --threads {threads} \
             --write-index=csi \

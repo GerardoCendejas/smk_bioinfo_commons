@@ -5,7 +5,7 @@ rule seqkit_stats:
     # input:
     #     fastq = "input/{prefix}.fastq"
     # output:
-    #     txt = get_output("seqkit_stats","_prefix.txt")
+    #     txt = get_output("seqkit_stats","_prefix.txt") # txt file, one path to .fastq per line
     # log:
     #     get_log_wild("seqkit_stats","prefix")
     threads: 4
