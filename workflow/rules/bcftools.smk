@@ -19,7 +19,7 @@ rule bcftools_filter_samples:
     resources:
         mem_mb = lambda wildcards, threads: threads * 1000
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         bcftools view \
@@ -48,7 +48,7 @@ rule bcftools_filter_samples_flexible:
     params:
         # species_list = "conirostris,magnirostris",
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         REGEX=$(echo "{params.species_list}" | sed 's/,/|/g' | sed 's/^/(/' | sed 's/$/)/')
@@ -92,7 +92,7 @@ rule bcftools_filter_informative:
     resources:
         mem_mb = lambda wildcards, threads: threads * 1000
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         bcftools view \
@@ -120,7 +120,7 @@ rule bcftools_stats:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         bcftools stats --threads {threads} {input.bcf} > {output.txt}
@@ -145,7 +145,7 @@ rule bcf2vcf:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         bcftools view \
@@ -172,7 +172,7 @@ rule vcf2bcf:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         bcftools view \
@@ -200,7 +200,7 @@ rule bcftools_no_chr:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         bcftools \
@@ -233,7 +233,7 @@ rule bcftools_extract_locus:
         # start = 0,
         # end = 0
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         bcftools \
@@ -261,7 +261,7 @@ rule tabix:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         tabix \
@@ -287,7 +287,7 @@ rule bcftools_get_chr:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         bcftools view \
@@ -315,7 +315,7 @@ rule bcftools_fill_tags:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         bcftools +fill-tags \
@@ -344,7 +344,7 @@ rule vcftools_get_allele_freq:
     params:
         o_prefix = lambda w, output: str(output.tsv).replace(".tsv", ""),
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         vcftools \
@@ -375,7 +375,7 @@ rule bcftools_merge:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         bcftools \

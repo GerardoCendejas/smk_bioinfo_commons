@@ -18,7 +18,7 @@ rule demesdraw_plot_model:
         python_bin = "python",
         script = "workflow/scripts/demesdraw/plot_model.py",
     conda:
-        "envs/demesdraw.yaml"
+        get_env("demesdraw")
     shell:
         """
         {params.python_bin} \

@@ -20,7 +20,7 @@ rule dsuite_tree_preprocess:
         script = "workflow/scripts/dsuite/tree_preprocess.R",
         # outgroup_names = "Outgroup1,Outgroup2,Outgroup3" # Comma separated list of outgroup names
     conda:
-        "envs/r_plots.yaml"
+        get_env("r_plots")
     shell:
         """
         {params.r_bin} \
@@ -49,7 +49,7 @@ rule dsuite_dtrios_parallel_tree:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/dsuite.yaml"
+        get_env("dsuite")
     params:
         jack_rep = 100,
     shell:
@@ -99,7 +99,7 @@ rule dsuite_fbranch:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda: 
-        "envs/dsuite.yaml"
+        get_env("dsuite")
     shell:
         """
         Dsuite \
@@ -125,7 +125,7 @@ rule dsuite_fbranch_plot:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/dsuite.yaml"
+        get_env("dsuite")
     shell:
         """
         FBRANCH_ABS=$(readlink -f {input.f_branch_o})
@@ -164,7 +164,7 @@ rule dsuite_fbranch_plot_net:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/r_plots.yaml"
+        get_env("r_plots")
     params:
         r_bin = "Rscript",
         script = "workflow/scripts/dsuite/plot_fbranch_graph.R",
@@ -194,7 +194,7 @@ rule dsuite_dinvestigate:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/dsuite.yaml"
+        get_env("dsuite")
     params:
         window_size = 50,
         step_size = 25,
@@ -253,7 +253,7 @@ rule dsuite_dinvestigate_plot:
         script = "workflow/scripts/dsuite/plot_dinvestigate.R",
         o_prefix = lambda w, output: output.log.replace("success.log", "")
     conda:
-        "envs/r_plots.yaml"
+        get_env("r_plots")
     shell:
         """
         {params.r_bin} \
@@ -280,7 +280,7 @@ rule dsuite_fbranch_plot_map:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/dsuite.yaml"
+        get_env("dsuite")
     params:
         r_bin = "Rscript",
         script = "workflow/scripts/dsuite/plot_fbranch_map.R",

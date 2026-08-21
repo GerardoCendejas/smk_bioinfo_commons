@@ -20,7 +20,7 @@ rule ahmm_plot:
         o_prefix = lambda w, output: os.path.dirname(output.png),
         title = "Genome"
     conda:
-        "envs/r_plots.yaml"
+        get_env("r_plots")
     shell:
         """
         

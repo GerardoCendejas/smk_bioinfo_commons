@@ -77,6 +77,27 @@ def get_benchmark(rule_config_key, wildcard=None):
     return os.path.join(BENCHMARKS_DIR, subdir, filename)
 
 
+# For envs calling
+
+from pathlib import Path
+
+def _find_commons_root(start: Path) -> Path:
+    """Sube hasta encontrar el dir que contiene envs/ (= commons/workflow)."""
+    for d in [start, *start.parents]:
+        if (d / "envs").is_dir():
+            return d
+    raise FileNotFoundError(f"No encontré envs/ subiendo desde {start}")
+
+COMMONS_WORKFLOW = _find_commons_root(Path(str(workflow.current_basedir)))
+COMMONS_ENVS = COMMONS_WORKFLOW / "envs"
+
+def get_env(name):
+    """Ruta absoluta a un env de commons."""
+    p = COMMONS_ENVS / f"{name}.yaml"
+    if not p.is_file():
+        raise FileNotFoundError(f"Env no existe: {p}")
+    return str(p)
+
 ### Functions that are be useful in some cases
 
 def lines2string(path):

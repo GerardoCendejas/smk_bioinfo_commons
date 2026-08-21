@@ -14,7 +14,7 @@ rule admixture_vcf_preprocess:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         bcftools view \
@@ -46,7 +46,7 @@ rule admixture_plink2_ld_prune:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/admixture.yaml"
+        get_env("admixture")
     params:
         o_prefix = lambda w, output: output.bed.replace(".bed", ""),
         chr_num = 28,
@@ -123,7 +123,7 @@ rule admixture_run:
     params:
         # k = 
     conda:
-        "envs/admixture.yaml"
+        get_env("admixture")
     shell:
         """
         INPUT_ABS=$(readlink -f {input.bed})
@@ -169,7 +169,7 @@ rule admixture_plot:
         # min_k = min(config["admixture_ks"]),
         # max_k = max(config["admixture_ks"]),
     conda:
-        "envs/r_plots.yaml"
+        get_env("r_plots")
     shell:
         """
         {params.r_bin} \

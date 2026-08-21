@@ -12,7 +12,7 @@ rule seqkit_stats:
     resources:
         mem_mb=lambda wildcards, threads: threads * 1000
     conda:
-        "envs/fastq_tools.yaml"
+        get_env("fastq_tools")
     shell:
         """
         seqkit stats \

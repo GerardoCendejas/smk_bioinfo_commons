@@ -16,7 +16,7 @@ rule genomics_general_geno:
     resources:
         mem_mb = lambda wildcards, threads: threads * 1000
     conda:
-        "envs/bcftools.yaml"
+        get_env("bcftools")
     shell:
         """
         ( \
@@ -65,7 +65,7 @@ rule genomics_general_phyml_sliding_window:
     resources:
         mem_mb = lambda wildcards, threads: threads * 1000
     conda:
-        "envs/genomics_general.yaml"
+        get_env("genomics_general")
     shell:
         """
         phyml_sliding_windows.py \
