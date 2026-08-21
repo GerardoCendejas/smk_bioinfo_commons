@@ -359,3 +359,35 @@ rule vcftools_get_allele_freq:
         sed -i '1s/.*/chrom\tpos\tn_alleles\tn_chr\tref_count\talt_count/' {output.tsv}
 
         """
+
+rule bcftools_merge:
+    """
+    Merges two bcf files with different samples, so called horizontal merge
+    """
+    # input:
+    #     bcf_1 = "input/{prefix}.bcf" # Both bcf files, the suffix is because the rule needs two inputs
+    #     bcf_2 = "input/{prefix}.bcf"
+    # output:
+    #     bcf = get_output("bcftools_merge","_prefix.bcf")
+    # log:
+    #     get_log_wild("bcftools_merge","prefix")
+    threads: 4
+    resources:
+        mem_mb=lambda wildcards, threads: threads * 1000
+    conda:
+        "envs/bcftools.yaml"
+    shell:
+        """
+        bcftools \
+        merge \
+        --output_type b \
+        --threads {threads} \
+        --write-index=csi \
+        --output {output.bcf} \
+        {input.bcf_1} {input.bcf_2} \
+        > {log} 2>&1
+	"""
+
+
+
+        
