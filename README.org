@@ -240,6 +240,15 @@ This is a special format used for population mapping, it is a tab separated file
 
 We use this format as a master helper, this helps keep more readable the function of some rules, and also keeps it easy to understand the input and output of the rules, as well as the pipelines that can be built with them.
 
+*** pm_hap
+
+A [[pop_map][pop_map]] file, but expanded to have the two haplotypes of each sample, where A and B are two haplotypes of the same individual.
+
+sample1_A pop1
+sample1_B pop1
+sample2_A pop1
+sample2_B pop1
+
 *** dir
 
 A directory, not a file.

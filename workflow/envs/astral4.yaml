@@ -1,0 +1,8 @@
+name: astral4
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - python=3.14
+  - aster=1.25

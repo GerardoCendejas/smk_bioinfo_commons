@@ -21,6 +21,7 @@ include: "rules/dsuite.smk"
 include: "rules/fastq_tools.smk"
 include: "rules/genomics_general.smk"
 include: "rules/utils.smk"
+include: "rules/astral.smk"
 
 # Loading configfile
 
@@ -30,5 +31,5 @@ rule all:
     input:
         # rules.fastq_stats.output
     conda:
-        "envs/genomics_general.yaml"
+        "envs/astral4.yaml"
     default_target: True
