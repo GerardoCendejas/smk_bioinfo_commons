@@ -380,7 +380,7 @@ rule bcftools_merge:
         """
         bcftools \
         merge \
-        --output_type b \
+        --output-type b \
         --threads {threads} \
         --write-index=csi \
         --output {output.bcf} \
