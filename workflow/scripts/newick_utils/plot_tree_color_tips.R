@@ -56,9 +56,11 @@ p <- ggtree(tree, size=0.8)
 if (!is.null(opt$map)) {
     
     # With map (color tips)
-    # Read CSV mapping file
-    # Species_name,Group
-    info <- read.csv(opt$map, header=FALSE, stringsAsFactors=FALSE)
+    # Read TSV mapping file
+    # Species_name Group
+    # Or tip_id Group
+    
+    info <- read.table(opt$map, header=FALSE, sep="\t", stringsAsFactors=FALSE)
     colnames(info) <- c("label", "group") # Naming columns for ggtree join
     
     # Join the mapping info to the tree data

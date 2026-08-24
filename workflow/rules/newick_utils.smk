@@ -6,7 +6,7 @@
 rule nwku_plot_tree:
     """
     This is a generic rule to plot a phylogenetic tree from a Newick format file.
-    """
+nn    """
     # input:
     #     tre = "input/{prefix}.tre"
     # output:
@@ -86,7 +86,7 @@ rule nwku_reroot_tree:
         get_env("r_plots")
     params:
         r_bin = "Rscript",
-        script = "workflow/scripts/plot_trees/reroot_tree.R",
+        script = "workflow/scripts/newick_utils/reroot_tree.R",
     shell:
         """
         {params.r_bin} \
