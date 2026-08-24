@@ -166,7 +166,7 @@ rule admixture_plot:
         mem_mb=lambda wildcards, threads: threads * 1000
     params:
         r_bin = "Rscript",
-        script = "workflow/scripts/admixture/plot_admixture.R",
+        script = get_script("admixture/plot_admixture.R"),
         q_dir = lambda w, input: os.path.dirname(input.q_file[0]),
         # min_k = min(config["admixture_ks"]),
         # max_k = max(config["admixture_ks"]),

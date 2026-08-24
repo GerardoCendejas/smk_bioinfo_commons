@@ -90,12 +90,20 @@ def _find_commons_root(start: Path) -> Path:
 
 COMMONS_WORKFLOW = _find_commons_root(Path(str(workflow.current_basedir)))
 COMMONS_ENVS = COMMONS_WORKFLOW / "envs"
+COMMONS_SCRIPTS = COMMONS_WORKFLOW / "scripts"
 
 def get_env(name):
     """Ruta absoluta a un env de commons."""
     p = COMMONS_ENVS / f"{name}.yaml"
     if not p.is_file():
         raise FileNotFoundError(f"Env no existe: {p}")
+    return str(p)
+
+def get_script(rel_path):
+    """Ruta absoluta a un script de commons (e.g. 'newick_utils/reroot_tree.R')."""
+    p = COMMONS_SCRIPTS / rel_path
+    if not p.is_file():
+        raise FileNotFoundError(f"Script no existe: {p}")
     return str(p)
 
 ### Functions that are be useful in some cases

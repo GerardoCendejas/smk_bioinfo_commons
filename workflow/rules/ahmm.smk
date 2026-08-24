@@ -18,7 +18,7 @@ rule ahmm_plot:
         mem_mb=lambda wildcards, threads: threads * 1000
     params:
         r_bin = "Rscript",
-        script = "workflow/scripts/ahmm/plot_ahmm.R",
+        script = get_script("ahmm/plot_ahmm.R"),
         o_prefix = lambda w, output: os.path.dirname(output.png),
         title = "Genome"
     conda:

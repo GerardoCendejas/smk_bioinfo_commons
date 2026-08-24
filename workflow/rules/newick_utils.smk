@@ -17,7 +17,7 @@ nn    """
         mem_mb=lambda wildcards, threads: threads * 1000
     params:
         r_bin = "Rscript",
-        script = "workflow/scripts/newick_utils/plot_tree.R",
+        script = get_script("newick_utils/plot_tree.R"),
         rooted = "-r", # "-r" Plot rooted tree
         node_labels = "", # "-n" Plot node labels
         size = 800, # 800 Size of the output image in pixels
@@ -50,7 +50,7 @@ rule nwku_plot_tree_color_tip:
         mem_mb=lambda wildcards, threads: threads * 1000
     params:
         r_bin = "Rscript",
-        script = "workflow/scripts/newick_utils/plot_tree_color_tips.R",
+        script = get_script("newick_utils/plot_tree_color_tips.R"),
         rooted = "-r", # "-r" Plot rooted tree
         node_labels = "", # "-n" Plot node labels
         size = 10, # Size of the output image in inches
@@ -86,7 +86,7 @@ rule nwku_reroot_tree:
         get_env("r_plots")
     params:
         r_bin = "Rscript",
-        script = "workflow/scripts/newick_utils/reroot_tree.R",
+        script = get_script("newick_utils/reroot_tree.R"),
     shell:
         """
         {params.r_bin} \

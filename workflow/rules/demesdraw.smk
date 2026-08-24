@@ -18,7 +18,7 @@ rule demesdraw_plot_model:
         mem_mb=lambda wildcards, threads: threads * 1000
     params:
         python_bin = "python",
-        script = "workflow/scripts/demesdraw/plot_model.py",
+        script = get_script("demesdraw/plot_model.py"),
     conda:
         get_env("demesdraw")
     shell:

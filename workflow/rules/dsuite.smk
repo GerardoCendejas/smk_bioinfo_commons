@@ -19,7 +19,7 @@ rule dsuite_tree_preprocess:
         mem_mb=lambda wildcards, threads: threads * 1000
     params:
         r_bin = "Rscript",
-        script = "workflow/scripts/dsuite/tree_preprocess.R",
+        script = get_script("dsuite/tree_preprocess.R"),
         # outgroup_names = "Outgroup1,Outgroup2,Outgroup3" # Comma separated list of outgroup names
     conda:
         get_env("r_plots")
@@ -169,7 +169,7 @@ rule dsuite_fbranch_plot_net:
         get_env("r_plots")
     params:
         r_bin = "Rscript",
-        script = "workflow/scripts/dsuite/plot_fbranch_graph.R",
+        script = get_script("dsuite/plot_fbranch_graph.R"),
         igraph_source = "workflow/scripts/dsuite/igraphplot2.R",
         p_thresh = 0.01
     shell:
@@ -252,7 +252,7 @@ rule dsuite_dinvestigate_plot:
         mem_mb=lambda wildcards, threads: threads * 1000
     params:
         r_bin = "Rscript",
-        script = "workflow/scripts/dsuite/plot_dinvestigate.R",
+        script = get_script("dsuite/plot_dinvestigate.R"),
         o_prefix = lambda w, output: output.log.replace("success.log", "")
     conda:
         get_env("r_plots")
@@ -285,7 +285,7 @@ rule dsuite_fbranch_plot_map:
         get_env("dsuite")
     params:
         r_bin = "Rscript",
-        script = "workflow/scripts/dsuite/plot_fbranch_map.R",
+        script = get_script("dsuite/plot_fbranch_map.R"),
         p_thresh = 0.01,
         o_prefix = lambda w, output: output.png.replace(".png", "")
     shell:
