@@ -1,4 +1,6 @@
-rule seqkit_stats:
+# PREFIX: fqt
+
+rule fqt_seqkit_stats:
     """
     Stats of  a fastq file using seqkit stats.
     """

@@ -1,1 +1,1 @@
-numpy @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_numpy_1786330625/work/dist/numpy-2.5.2-cp314-cp314-linux_x86_64.whl#sha256=772631385f8391adb29802985c1084b7184071500209834a48d519c41885fcc7
+numpy @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_numpy_1786330627/work/dist/numpy-2.5.2-cp313-cp313-linux_x86_64.whl#sha256=5ccf0cf2da5f4aa25ee0227b6e6a9535ac7cf6e41285734788de4f500e1f624d

@@ -1,3 +1,5 @@
+# PREFIX: admixture
+
 # Rules for running admixture
 
 # Similar rule in bcftools now. Redundant for the future.

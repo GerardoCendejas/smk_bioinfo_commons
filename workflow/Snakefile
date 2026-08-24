@@ -31,5 +31,5 @@ rule all:
     input:
         # rules.fastq_stats.output
     conda:
-        "envs/astral4.yaml"
+        "envs/genomics_general.yaml"
     default_target: True

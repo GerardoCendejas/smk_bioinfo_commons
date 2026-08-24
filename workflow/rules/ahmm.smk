@@ -1,3 +1,5 @@
+# PREFIX: ahmm
+
 # Rules for visualizing ancestry hmm results
 
 rule ahmm_plot:

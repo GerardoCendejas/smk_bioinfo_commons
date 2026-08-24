@@ -1,3 +1,5 @@
+# PREFIX: astral
+
 # Rules for running ASTRAL to infer species trees from gene trees using the coalescent model.
 # This can be window trees obtained with genomics_general module.
 

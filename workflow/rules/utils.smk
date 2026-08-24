@@ -1,3 +1,5 @@
+# PREFIX: utils
+
 # Utils tools for Snakemake workflows
 # File processing and helper functions
 

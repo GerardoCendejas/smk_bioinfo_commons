@@ -1,3 +1,5 @@
+# PREFIX: demesdraw
+
 # Rules to plot demographic models using the `demesdraw` library in Python.
 
 rule demesdraw_plot_model:

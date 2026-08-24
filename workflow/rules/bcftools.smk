@@ -1,3 +1,5 @@
+# PREFIX: bcftools
+
 # Rules for bcftools
 
 rule bcftools_filter_samples:

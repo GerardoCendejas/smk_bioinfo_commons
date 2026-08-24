@@ -1,3 +1,5 @@
+# PREFIX: dsuite
+
 # Rule definition for running the dsuite
 # In this context .tre refers to a single tree file in newick format
 

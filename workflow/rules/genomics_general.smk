@@ -1,3 +1,5 @@
+# PREFIX: genomics_general
+
 import os
 
 rule genomics_general_geno:
