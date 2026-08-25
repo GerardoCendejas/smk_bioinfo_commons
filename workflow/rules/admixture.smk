@@ -11,6 +11,7 @@ rule admixture_vcf_preprocess:
     #     bcf = "input/{prefix}.bcf"
     # output:
     #     bcf = get_output("admixture_vcf_preprocess","_{sampe}.bcf")
+    #     csi = get_output("admixture_vcf_preprocess","_{sampe}.bcf.csi")
     # log:
     #     get_log_wild("admixture_vcf_preprocess","{sampe}")
     resources:
@@ -68,7 +69,7 @@ rule admixture_plink2_ld_prune:
         > {log} 2>&1
 
         plink2 \
-        --vcf {input.vcf} \
+        --bcf {input.bcf} \
         --allow-extra-chr \
         --chr-set {params.chr_num} \
         --set-all-var-ids @:# \
