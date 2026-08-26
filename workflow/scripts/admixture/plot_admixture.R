@@ -34,20 +34,20 @@ opt <- parse_args(opt_parser)
 
 if (is.null(opt$fam) || is.null(opt$pop_map) || is.null(opt$sort)) {
   print_help(opt_parser)
-  stop("Error: Missing mandatory arguments (--fam, --meta, --pops).", call. = FALSE)
+  stop("Error: Missing mandatory arguments (--fam, --pop_map, --sort).", call. = FALSE)
 }
 
 if (!file.exists(opt$fam)) stop(paste("File not found:", opt$fam))
-if (!file.exists(opt$meta)) stop(paste("File not found:", opt$meta))
-if (!file.exists(opt$pops)) stop(paste("File not found:", opt$pops))
+if (!file.exists(opt$pop_map)) stop(paste("File not found:", opt$pop_map))
+if (!file.exists(opt$sort)) stop(paste("File not found:", opt$sort))
 
 
 # Read metadata (ID Species)
-records <- read.table(opt$meta, header = FALSE, stringsAsFactors = FALSE)
+records <- read.table(opt$pop_map, header = FALSE, stringsAsFactors = FALSE)
 colnames(records)[1:2] <- c("Ind", "Pop")
 
 # Read population order
-populations_order <- read.table(opt$pops, header = FALSE, stringsAsFactors = FALSE)$V1
+populations_order <- read.table(opt$sort, header = FALSE, stringsAsFactors = FALSE)$V1
 
 # Read .fam file to match IDs with Admixture rows
 fam_data <- read.table(opt$fam, stringsAsFactors = FALSE)
