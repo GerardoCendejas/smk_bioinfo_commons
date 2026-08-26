@@ -57,7 +57,7 @@ rule admixture_plink2_ld_prune:
         # number of chromosomes
         window_size = 50,
         step_size = 10,
-        r2_threshold = 0.1,
+        r2_threshold = 0.2,
         args = "" # Any additional arguments you want to give
         # E.g: --bad-ld for when using less than 50 samples, even though not recommended by plink
     shell:
