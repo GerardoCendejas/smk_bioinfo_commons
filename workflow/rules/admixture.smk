@@ -52,10 +52,14 @@ rule admixture_plink2_ld_prune:
         get_env("admixture")
     params:
         o_prefix = lambda w, output: output.bed.replace(".bed", ""),
-        chr_num = 28,
+        chr_num = 28, # This is important to change, this used as an example of birds
+        # It is flexible for diferent organisms other than humans, but make sure to use your correct
+        # number of chromosomes
         window_size = 50,
         step_size = 10,
-        r2_threshold = 0.1
+        r2_threshold = 0.1,
+        args = "" # Any additional arguments you want to give
+        # E.g: --bad-ld for when using less than 50 samples, even though not recommended by plink
     shell:
         """
         plink2 \
@@ -65,6 +69,7 @@ rule admixture_plink2_ld_prune:
         --set-all-var-ids @:# \
         --indep-pairwise {params.window_size} {params.step_size} {params.r2_threshold} \
         --threads {threads} \
+        {params.args} \
         --out {params.o_prefix} \
         > {log} 2>&1
 
