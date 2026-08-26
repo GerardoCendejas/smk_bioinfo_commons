@@ -134,7 +134,7 @@ rule dsuite_fbranch_plot:
         TREE_ABS=$(readlink -f {input.tre})
 
         OUTPUT_ABS=$(readlink -f {output.png})
-        OUTPUT_DIR=$(dirname "$OUTPUT_ABS"")
+        OUTPUT_DIR=$(dirname "$OUTPUT_ABS")
 
         LOG_ABS=$(readlink -f {log})
         

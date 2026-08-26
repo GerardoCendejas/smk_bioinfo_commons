@@ -6,7 +6,7 @@
 rule nwku_plot_tree:
     """
     This is a generic rule to plot a phylogenetic tree from a Newick format file.
-nn    """
+    """
     # input:
     #     tre = "input/{prefix}.tre"
     # output:
