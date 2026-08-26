@@ -32,7 +32,7 @@ option_list <- list(
 opt_parser <- OptionParser(option_list = option_list)
 opt <- parse_args(opt_parser)
 
-if (is.null(opt$fam) || is.null(opt$meta) || is.null(opt$pops)) {
+if (is.null(opt$fam) || is.null(opt$pop_map) || is.null(opt$sort)) {
   print_help(opt_parser)
   stop("Error: Missing mandatory arguments (--fam, --meta, --pops).", call. = FALSE)
 }
