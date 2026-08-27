@@ -2,6 +2,7 @@
 
 suppressPackageStartupMessages({
   library(ape)
+  library(phytools)
   library(optparse)
 })
 
@@ -63,15 +64,67 @@ if (length(missing_tips) > 0) {
 }
 
 tryCatch({
-  # Reroot using ape::root to handle paraphyletic/grade outgroups robustly
-  rerooted_tree <- ape::root(
-    tree, 
-    outgroup = outgroup_vec, 
-    resolve.root = TRUE, 
-    edgelabel = TRUE
-  )
+  # 1. Start from an unrooted tree to avoid root placement artifacts
+  unrooted_tr <- unroot(tree)
+  
+  ingroup_vec <- setdiff(unrooted_tr$tip.label, outgroup_vec)
+  n_tips <- length(unrooted_tr$tip.label)
 
-  # Cleanup branch lengths if original lacked them or introduced NAs
+  if (length(outgroup_vec) == 1) {
+    target_node <- which(unrooted_tr$tip.label == outgroup_vec)
+    edge_idx <- which(unrooted_tr$edge[, 2] == target_node)
+    branch_len <- unrooted_tr$edge.length[edge_idx]
+    if (is.na(branch_len)) branch_len <- 0
+    rerooted_tree <- reroot(unrooted_tr, node = target_node, position = branch_len / 2)
+
+  } else {
+    # 2. Check bipartitions to find the branch that isolates the outgroup
+    # Propagate clades from downstream nodes
+    target_edge <- NULL
+    target_node <- NULL
+    
+    # Check all internal nodes and edges
+    for (i in 1:nrow(unrooted_tr$edge)) {
+      desc_node <- unrooted_tr$edge[i, 2]
+      
+      # Get all tips descending from desc_node
+      desc_tips <- unrooted_tr$tip.label[propagate_tips <- if (desc_node <= n_tips) desc_node else {
+        descendants <- phytools::getDescendants(unrooted_tr, desc_node)
+        descendants[descendants <= n_tips]
+      }]
+      
+      # Check if this edge exactly separates outgroup or ingroup
+      if (setequal(desc_tips, outgroup_vec)) {
+        target_node <- desc_node
+        target_edge <- i
+        break
+      } else if (setequal(desc_tips, ingroup_vec)) {
+        # The parent node connects to the outgroup stem
+        target_node <- desc_node
+        target_edge <- i
+        break
+      }
+    }
+
+    if (!is.null(target_edge)) {
+      branch_len <- unrooted_tr$edge.length[target_edge]
+      if (is.na(branch_len)) branch_len <- 0
+      rerooted_tree <- reroot(unrooted_tr, node = target_node, position = branch_len / 2)
+    } else {
+      # Fallback: Reroot on ingroup MRCA first, then resolve outgroup MRCA
+      ingroup_mrca <- getMRCA(unrooted_tr, ingroup_vec)
+      temp_tr <- reroot(unrooted_tr, node = ingroup_mrca, position = 0)
+      
+      out_mrca <- getMRCA(temp_tr, outgroup_vec)
+      edge_idx <- which(temp_tr$edge[, 2] == out_mrca)
+      b_len <- temp_tr$edge.length[edge_idx]
+      if (is.na(b_len)) b_len <- 0
+      
+      rerooted_tree <- reroot(temp_tr, node = out_mrca, position = b_len / 2)
+    }
+  }
+
+  # Clean branch lengths if original was purely topological
   if (!has_orig_lengths) {
     rerooted_tree$edge.length <- NULL
   } else if (!is.null(rerooted_tree$edge.length)) {
