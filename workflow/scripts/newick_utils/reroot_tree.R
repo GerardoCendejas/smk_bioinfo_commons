@@ -60,57 +60,68 @@ if (is.null(tree$edge.length)) {
 missing_tips <- outgroup_vec[!outgroup_vec %in% tree$tip.label]
 
 if (length(missing_tips) > 0) {
-  if (length(missing_tips) == length(outgroup_vec)) {
-    stop("ERROR: No tip labels from the outgroup are present in the tree.")
-  } else {
-    warning(paste("Omitting", length(missing_tips), "species from outgroup list since they are not in the tree."))
-    outgroup_vec <- outgroup_vec[outgroup_vec %in% tree$tip.label]
-  }
+    if (length(missing_tips) == length(outgroup_vec)) {
+        stop("ERROR: No tip labels from the outgroup are present in the tree.")
+    } else {
+        warning(paste("Omitting", length(missing_tips), "species from outgroup list since they are not in the tree."))
+        outgroup_vec <- outgroup_vec[outgroup_vec %in% tree$tip.label]
+    }
 }
 
 tryCatch({
-    # 2. Identify the target node (MRCA of the outgroup)
+                                        # 2. Identify the target node (MRCA of the outgroup)
     if (length(outgroup_vec) == 1) {
-        # If outgroup is a single species, find its index
+                                        # If outgroup is a single species, find its index
         target_node <- which(tree$tip.label == outgroup_vec)
     } else {
-        # If outgroup is a clade, find the MRCA node
+                                        # If outgroup is a clade, find the MRCA node
         target_node <- getMRCA(tree, outgroup_vec)
     }
 
-    # 3. Find the edge connecting this node to the rest of the tree
-    edge_index <- which(tree$edge[, 2] == target_node)
+    root_node <- length(tree$tip.label) + 1
 
-    if (length(edge_index) == 0) {
-        stop("The selected outgroup node appears to be the root already or has no upstream branch.")
+    if (is.null(target_node)) {
+        stop("Could not resolve MRCA for the provided outgroup taxa.")
     }
 
-    # 4. Get branch length and calculate midpoint
-    branch_len <- tree$edge.length[edge_index]
-    
-    # Asegurar que branch_len sea numérico para la división
-    if (is.na(branch_len)) branch_len <- 0
-    
-    split_position <- branch_len / 2
-    
-    # 5. Reroot using phytools
-    rerooted_tree <- reroot(tree, node = target_node, position = split_position)
-    
-    # 6. Limpieza final antes de guardar
-    # Si el árbol original era topológico, borramos las ramas. 
-    # De lo contrario, nos aseguramos de que no queden NaNs residuales.
-    if (!has_orig_lengths) {
-        rerooted_tree$edge.length <- NULL
+    if (target_node == root_node) {
+        message("The selected outgroup is already at the root. No rerooting needed.")
+        rerooted_tree <- tree
     } else {
-        if (any(is.na(rerooted_tree$edge.length))) {
-            rerooted_tree$edge.length[is.na(rerooted_tree$edge.length)] <- 0
+        
+                                        # 3. Find the edge connecting this node to the rest of the tree
+        edge_index <- which(tree$edge[, 2] == target_node)
+
+        if (length(edge_index) == 0) {
+            stop("The selected outgroup node appears to be the root already or has no upstream branch.")
         }
-    }
-    
-    # 7. Save output
-    write.tree(rerooted_tree, file = opt$output)
-    message(paste("Successfully rerooted to:", opt$output))
-    
+
+                                        # 4. Get branch length and calculate midpoint
+        branch_len <- tree$edge.length[edge_index]
+        
+                                        # Asegurar que branch_len sea numérico para la división
+        if (is.na(branch_len)) branch_len <- 0
+        
+        split_position <- branch_len / 2
+        
+                                        # 5. Reroot using phytools
+        rerooted_tree <- reroot(tree, node = target_node, position = split_position)
+        
+                                        # 6. Limpieza final antes de guardar
+                                        # Si el árbol original era topológico, borramos las ramas. 
+                                        # De lo contrario, nos aseguramos de que no queden NaNs residuales.
+        if (!has_orig_lengths) {
+            rerooted_tree$edge.length <- NULL
+        } else {
+            if (any(is.na(rerooted_tree$edge.length))) {
+                rerooted_tree$edge.length[is.na(rerooted_tree$edge.length)] <- 0
+            }
+        }
+        
+                                        # 7. Save output
+        write.tree(rerooted_tree, file = opt$output)
+        message(paste("Successfully rerooted to:", opt$output))
+    }    
 }, error = function(e) {
     stop(paste("ERROR during rerooting:", e$message))
 })
