@@ -86,7 +86,7 @@ tryCatch({
 
     if (target_node == root_node) {
         message("The selected outgroup is already at the root. No rerooting needed.")
-        rerooted_tree <- tree
+        write.tree(tree, file = opt$output)
     } else {
         
                                         # 3. Find the edge connecting this node to the rest of the tree
