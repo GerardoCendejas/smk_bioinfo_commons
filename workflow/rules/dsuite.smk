@@ -170,7 +170,7 @@ rule dsuite_fbranch_plot_net:
     params:
         r_bin = "Rscript",
         script = get_script("dsuite/plot_fbranch_graph.R"),
-        igraph_source = "workflow/scripts/dsuite/igraphplot2.R",
+        igraph_source = get_script("dsuite/igraphplot2.R"),
         p_thresh = 0.01
     shell:
         """
