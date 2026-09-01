@@ -46,11 +46,11 @@ As an example, we can have a general rule to extract samples from a `.bcf` file,
 
 ### Defining output
 
-In order to have standard output creation for tractability, the functions in the [commons module](#orgcc0c2db) are built so you don't have to worry about messy directories, the output that you define in the files will **ALWAYS** be created in the `results` directory, and the log files will be created in the `logs` directory, same for benchmarks. The idea is that you don't have to worry about creating directories, and you can just focus on the analysis.
+In order to have standard output creation for tractability, the functions in the [commons module](#org51ad1bc) are built so you don't have to worry about messy directories, the output that you define in the files will **ALWAYS** be created in the `results` directory, and the log files will be created in the `logs` directory, same for benchmarks. The idea is that you don't have to worry about creating directories, and you can just focus on the analysis.
 
-The usage of this module is pretty simple, in the creation of `input:` and `output:` directives when defining a Snakemake rule, you can use the functions in the [commons module](#orgcc0c2db) to define the proper path, never writing outside of the `results` directory.
+The usage of this module is pretty simple, in the creation of `input:` and `output:` directives when defining a Snakemake rule, you can use the functions in the [commons module](#org51ad1bc) to define the proper path, never writing outside of the `results` directory.
 
-The most basic usage would be to use the `get_output` function to define the output file, in this case you need to define the rule name as used in the [Snakefile](#org8b14021) and the [config file](#org059f9e4), as well as the file name per see (don't worry if you don't understand this right now, see the [config file](#org059f9e4) for an explanation on the reason why we work this way). 
+The most basic usage would be to use the `get_output` function to define the output file, in this case you need to define the rule name as used in the [Snakefile](#orgf2cc9e0) and the [config file](#org982eed1), as well as the file name per see (don't worry if you don't understand this right now, see the [config file](#org982eed1) for an explanation on the reason why we work this way). 
 
     
     get_output("rule_name", "file_name.txt")
@@ -82,7 +82,7 @@ The basic structure of a rule description in the configuration file is as follow
       dir: "output_directory"
       prefix: "descriptor"
 
-There reason for this architecture is that the helper functions in [commons module](#orgcc0c2db) use this configuration tags to name output and log files. merging the prefix and filename with a `_`. Let's look at an example:
+There reason for this architecture is that the helper functions in [commons module](#org51ad1bc) use this configuration tags to name output and log files. merging the prefix and filename with a `_`. Let's look at an example:
 
     
     get_output("rule_name","test.txt")
@@ -115,11 +115,11 @@ The basic structure of a rule usage in your `workflow/Snakefile` is as follows:
 
 The usage of the rule is intended to be local always, so the rule can be called as many times as needed, they are basic building blocks of your pipeline.
 
-Input and output files are always defined with a name (`txt` and `csv` in this example), see specific rules in [modules](#orge1b0b24) for the specific input and output files that are defined for each rule, these names are descriptors of the file type, and are used to define the input and output files in the rule.
+Input and output files are always defined with a name (`txt` and `csv` in this example), see specific rules in [modules](#org8a4135a) for the specific input and output files that are defined for each rule, these names are descriptors of the file type, and are used to define the input and output files in the rule.
 
 They help undestanding also which rules could be used in a pipeline, as the output of one rule could be the input of another rule, and the names of the files help to understand which rules could be used together. All rules have descriptors for input and output, none of them has unnamed input or output files, this is a design decision to make the rules more understandable and easier to use, also facilitates expansion of the rules, as new input and output files can be added without breaking existing rules.
 
-The rule name in the [config file](#org059f9e4) should be the local name of the rule, not the general one, it will not work if you do not define the local name in the config file.
+The rule name in the [config file](#org982eed1) should be the local name of the rule, not the general one, it will not work if you do not define the local name in the config file.
 
 
 # Modules
@@ -127,7 +127,7 @@ The rule name in the [config file](#org059f9e4) should be the local name of the 
 
 ## Commons
 
-For a better understanding of this module please first read the [introduction](#org7d12bde) section, it will help you understand the purpose of this module and how to use it.
+For a better understanding of this module please first read the [introduction](#org9d5f354) section, it will help you understand the purpose of this module and how to use it.
 
 
 ### get\_output
@@ -137,7 +137,7 @@ Helper function to get common output for rules.
 
 ### get\_output\_filename
 
-If you have multiple output files in a rule, and for some reason want to use a different prefix instead of making filenames different with the filename, use this helper function instead of [get\_output](#orga1c67f2):
+If you have multiple output files in a rule, and for some reason want to use a different prefix instead of making filenames different with the filename, use this helper function instead of [get\_output](#org1903004):
 
     
     get_output_filename("rule_name","alt_prefix","filename.txt")
@@ -198,6 +198,16 @@ Includes functions to plot the f-branch results with the function provided by th
 Rules for running analysis from [genomics general](https://github.com/simonhmartin/genomics_general.git) package. includes functions to get maximum likelihood phylogenetic trees from `.vcf` files in genomic windows by using phyml.
 
 
+## [liftoff](workflow/rules/liftoff.smk)
+
+Rules for running liftoff to lift over annotations from one genome to another.
+
+
+## [phlash](workflow/rules/phlash.smk)
+
+Rules for running phlash to get demografic inference of past effective population sizes.
+
+
 # File formats
 
 In this architecture, it is important to understand the file formats that are used in the rules, as they are the standard formats for bioinformatic pipelines, as well as some defined formats used for standardization of rules that are described here.
@@ -215,9 +225,19 @@ This is a very important format in this suite. Some rules (usually beacuse of re
 This is not a log file from snakemake, that will go as normal to `results/logs`. This is only a log file to track files in the pipeline. Every time you see a log flag in the input or output of a rule, check the naming of it (some required a specific name as `success.log`). Some rules use log just to track that the rule ran succesfully and it is not expected to be used afterwards, while some rules that do need a log file as input will tell you from which previous rule log output to use CHECK THE RULE.smk file always to use the proper log file.
 
 
+### rlog
+
+To distinguish between the [log](#org1e19781) files explicitely determined by the output of a rule from the log files of snakemake&#x2026; the `rlog` flag in a rule indicates that this log file is the log file from a previously run rule, so it's easier to remember this.
+
+
 ### txt
 
 This is a general format of plain text that will be used for very basic configuration or input files, or to output some non standard formatted files from certain programs.
+
+
+### samples
+
+A type of [txt](#org1b906b6) file, which represents one sample per line, this is the sample ids that are used in different formats such as [bcf](#org99a7a4d).
 
 
 ### csv
@@ -230,6 +250,16 @@ Comma separated values, common and general format for tabular data, used for inp
 This is a special format used for population mapping, it is a tab separated file with two columns, the first column is the sample id, and the second column is the population id. This format is used for input of some programs that require population information, and also for some intermediate files in the pipelines.
 
 We use this format as a master helper, this helps keep more readable the function of some rules, and also keeps it easy to understand the input and output of the rules, as well as the pipelines that can be built with them.
+
+
+### pm\_hap
+
+A [pop\_map](#orgd68c8ac) file, but expanded to have the two haplotypes of each sample, where A and B are two haplotypes of the same individual.
+
+sample1\_A pop1
+sample1\_B pop1
+sample2\_A pop1
+sample2\_B pop1
 
 
 ### dir

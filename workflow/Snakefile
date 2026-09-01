@@ -32,5 +32,5 @@ rule all:
     input:
         # rules.fastq_stats.output
     conda:
-        get_env("liftoff")
+        get_env("phlash")
     default_target: True

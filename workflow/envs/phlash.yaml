@@ -1,0 +1,17 @@
+name: phlash
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.12
+  - pip=26.2.1
+  - numpy=2.5.2
+  - pandas=3.0.5
+  - scipy=1.18.0
+  - matplotlib=3.11.1
+  - setuptools=84.0.0
+  - pysam=0.24.0
+  - ipython=9.16.1
+  - pip:
+    - git+https://github.com/jthlab/phlash.git@96a6e3f8e01053271e88d21c97862198422d9ae0

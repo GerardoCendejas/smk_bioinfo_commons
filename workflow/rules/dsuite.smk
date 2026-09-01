@@ -39,7 +39,7 @@ rule dsuite_dtrios_parallel_tree:
     """
     # input:
     #     tre= "input/{sample}.tre",
-    #     vcf= "input/{sample}.vcf.gz",
+    #     vcf_g= "input/{sample}.vcf.gz",
     #     pop_map= "input/{sample}.groups.tsv" # Pop map file with outgroup named as Outgroup
     # output:
     #     bbaa = get_output("dsuite_dtrios_parallel","/{sample}_BBAA.txt"),
@@ -57,7 +57,7 @@ rule dsuite_dtrios_parallel_tree:
     shell:
         """
         TRE_ABS=$(readlink -f {input.tre})
-        VCF_ABS=$(readlink -f {input.vcf})
+        VCF_ABS=$(readlink -f {input.vcf_g})
         POPMAP_ABS=$(readlink -f {input.pop_map})
         LOG_ABS=$(readlink -f {log})
 
@@ -187,7 +187,7 @@ rule dsuite_dinvestigate:
     This rule will run the Dinvestigate on different trios
     """
     # input:
-    #     vcf = "input/{sample}.vcf.gz",
+    #     vcf_g = "input/{sample}.vcf.gz",
     #     pop_map= "input/{sample}.tsv"      
     # output:
     #     dinv = get_output("dsuite_dinvestigate","_{sample}.txt") # To be used in plotting
@@ -205,7 +205,7 @@ rule dsuite_dinvestigate:
         # p3 = trio["p3"]
     shell:
         """
-        VCF_ABS=$(readlink -f {input.vcf})
+        VCF_ABS=$(readlink -f {input.vcf_g})
         POPMAP_ABS=$(readlink -f {input.pop_map})
 
         OUTPUT_ABS=$(readlink -f {output.dinv})

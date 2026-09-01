@@ -214,6 +214,10 @@ Rules for running analysis from [[https://github.com/simonhmartin/genomics_gener
 
 Rules for running liftoff to lift over annotations from one genome to another.
 
+** [[file:workflow/rules/phlash.smk][phlash]]
+
+Rules for running phlash to get demografic inference of past effective population sizes.
+
 * File formats
 
 In this architecture, it is important to understand the file formats that are used in the rules, as they are the standard formats for bioinformatic pipelines, as well as some defined formats used for standardization of rules that are described here.
@@ -230,9 +234,17 @@ This is a very important format in this suite. Some rules (usually beacuse of re
 This is not a log file from snakemake, that will go as normal to ~results/logs~. This is only a log file to track files in the pipeline. Every time you see a log flag in the input or output of a rule, check the naming of it (some required a specific name as ~success.log~). Some rules use log just to track that the rule ran succesfully and it is not expected to be used afterwards, while some rules that do need a log file as input will tell you from which previous rule log output to use CHECK THE RULE.smk file always to use the proper log file.
 #+LATEX: \end{tcolorbox}
 
+*** rlog
+
+To distinguish between the [[log][log]] files explicitely determined by the output of a rule from the log files of snakemake... the ~rlog~ flag in a rule indicates that this log file is the log file from a previously run rule, so it's easier to remember this.
+
 *** txt
 
 This is a general format of plain text that will be used for very basic configuration or input files, or to output some non standard formatted files from certain programs.
+
+*** samples
+
+A type of [[txt][txt]] file, which represents one sample per line, this is the sample ids that are used in different formats such as [[bcf][bcf]].
 
 *** csv
 
