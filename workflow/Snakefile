@@ -32,5 +32,5 @@ rule all:
     input:
         # rules.fastq_stats.output
     conda:
-        "envs/genomics_general.yaml"
+        get_env("liftoff")
     default_target: True

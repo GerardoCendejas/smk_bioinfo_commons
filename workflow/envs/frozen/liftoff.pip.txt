@@ -1,0 +1,18 @@
+argcomplete @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_argcomplete_1786180543/work
+argh @ file:///home/conda/feedstock_root/build_artifacts/argh_1736349233934/work
+biopython @ file:///home/conda/feedstock_root/build_artifacts/biopython_1786018876073/work
+gffutils @ file:///opt/conda/conda-bld/gffutils_1774978314321/work
+importlib_metadata @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_importlib-metadata_1787943971/work
+interlap @ file:///home/conda/feedstock_root/build_artifacts/interlap_1601883199577/work
+Liftoff @ file:///opt/conda/conda-bld/liftoff_1769091363495/work
+networkx @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_networkx_1731521053/work
+numpy @ file:///home/conda/feedstock_root/build_artifacts/numpy_1747544640217/work/dist/numpy-2.2.6-cp310-cp310-linux_x86_64.whl#sha256=d6d964caeef85d00073d27cd62b46883d275b3d8162f723f0fcabbd0b3cc3f9d
+packaging @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_packaging_1785888127/work
+parasail @ file:///opt/conda/conda-bld/parasail-python_1717530025029/work
+pyfaidx @ file:///opt/conda/conda-bld/pyfaidx_1773947573312/work
+pysam==0.22.1
+PyVCF3 @ file:///opt/conda/conda-bld/pyvcf3_1749468283042/work
+simplejson @ file:///home/conda/feedstock_root/build_artifacts/simplejson_1787824071074/work
+six @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_six_1753199211/work
+ujson @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_ujson_1781561649/work
+zipp @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_zipp_1779159948/work

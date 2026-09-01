@@ -210,6 +210,10 @@ Includes functions to plot the f-branch results with the function provided by th
 
 Rules for running analysis from [[https://github.com/simonhmartin/genomics_general.git][genomics general]] package. includes functions to get maximum likelihood phylogenetic trees from ~.vcf~ files in genomic windows by using phyml.
 
+** [[file:workflow/rules/liftoff.smk][liftoff]]
+
+Rules for running liftoff to lift over annotations from one genome to another.
+
 * File formats
 
 In this architecture, it is important to understand the file formats that are used in the rules, as they are the standard formats for bioinformatic pipelines, as well as some defined formats used for standardization of rules that are described here.

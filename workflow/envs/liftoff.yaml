@@ -1,0 +1,9 @@
+name: liftoff
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.10
+  - pip=26.2.1
+  - liftoff=1.6.3
